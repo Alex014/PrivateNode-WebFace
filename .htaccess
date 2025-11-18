@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Privateness password (default privateness)" 
+AuthUserFile /home/privateness/.htpasswd 
+require valid-user
