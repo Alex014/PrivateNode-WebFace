@@ -2,6 +2,18 @@
     <h2 class="section-title">System</h2>
     <div class="system-actions">
         <div class="action-card">
+            <div class="action-icon update-icon">
+                <i class="fas fa-arrow-up"></i>
+            </div>
+            <h4>Update WEB FACE</h4>
+            <p>Update the WEB interface you are currently using.</p>
+            <button class="btn btn-other" data-command="source">
+                <i class="fas fa-sync-alt"></i>
+                Update
+            </button>
+        </div>
+
+        <div class="action-card">
             <div class="action-icon cert-icon">
                 <i class="fas fa-certificate"></i>
             </div>
@@ -28,11 +40,11 @@
 </section>
 
 <section class="cpanel-section">
-    <h2 class="section-title">Change User Password</h2>
+    <h2 class="section-title">Change Privateness Password</h2>
     <div class="password-form user-form">
 
         <div class="form-group">
-            <label for="user-password">User Password</label>
+            <label for="user-password">Privateness user Password</label>
             <input type="password" id="user-password" class="form-control" placeholder="Enter new privateness user password">
             <input type="password" class="form-control" placeholder="Confirm new privateness user password">
         </div>
@@ -49,7 +61,7 @@
     <div class="password-form root-form">
         
         <div class="form-group">
-            <label for="root-password">Root Password</label>
+            <label for="root-password">Root user Password</label>
             <input type="password" id="root-password" class="form-control" placeholder="Enter new root password">
             <input type="password" class="form-control" placeholder="Confirm new root password">
         </div>
@@ -65,6 +77,7 @@
 // System actions
 const regenerateBtn = document.querySelector('.btn-primary');
 const upgradeBtn = document.querySelector('.btn-secondary');
+const sourceBtn = document.querySelector('.btn-other');
 
 // Password form submission
 const userForm = document.querySelector('.user-form');
@@ -88,6 +101,13 @@ regenerateBtn.addEventListener('click', function() {
 
 upgradeBtn.addEventListener('click', function() {
     this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upgrading...';
+    this.disabled = true;
+    
+    commandSystem(this.dataset.command)
+});
+
+sourceBtn.addEventListener('click', function() {
+    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updateing...';
     this.disabled = true;
     
     commandSystem(this.dataset.command)
@@ -162,7 +182,18 @@ function showSystem (commands) {
         let ss = commands[command]['status']
         let dt = commands[command]['date']
 
-        if (command == 'cert') {
+        if (command == 'source') {
+            if (ss == 'iddle') {    
+                sourceBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Update';
+                sourceBtn.disabled = false;
+            } else if (ss == 'launch' || ss == 'running') {
+                sourceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updateing...';
+                sourceBtn.disabled = true;
+            } else if (ss == 'done') {
+                sourceBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Source updated ' + dt;
+                sourceBtn.disabled = false;
+            }
+        } else if (command == 'cert') {
             if (ss == 'iddle') {    
                 regenerateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Regenerate';
                 regenerateBtn.disabled = false;

@@ -9,6 +9,7 @@
         :root {
             --primary: #3a86ff;
             --secondary: #8338ec;
+            --other:rgb(11, 131, 81);
             --accent: #ff006e;
             --dark: #0d1b2a;
             --darker: #070f1c;
@@ -314,6 +315,10 @@
             background: linear-gradient(135deg, var(--secondary), #3a0ca3);
         }
 
+        .update-icon {
+            background: linear-gradient(135deg, var(--other),rgb(3, 63, 38));
+        }
+
         .action-card h4 {
             font-size: 1.3rem;
             margin-bottom: 0.8rem;
@@ -333,6 +338,11 @@
 
         .btn-secondary {
             background: var(--secondary);
+            color: white;
+        }
+
+        .btn-other {
+            background: var(--other);
             color: white;
         }
 
