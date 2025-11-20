@@ -1,4 +1,5 @@
 <?php
+require '../config.php';
 //phpinfo();
 // var_dump($_SERVER['SERVER_PORT']);
 define('BASE_URL', "http://127.0.0.1:6422/");
