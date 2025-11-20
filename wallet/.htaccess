@@ -1,4 +1,3 @@
-AllowOverride All
 Options +FollowSymLinks
 RewriteEngine on
 RewriteBase /
