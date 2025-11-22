@@ -173,7 +173,7 @@ rootBtn.addEventListener('click', function() {
     // Clear form fields
     const inputs = userForm.querySelectorAll('input');
     inputs.forEach(input => {
-        input.value = '';
+        rootForm.value = '';
     });
 });
 
