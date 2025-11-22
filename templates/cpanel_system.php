@@ -171,9 +171,9 @@ rootBtn.addEventListener('click', function() {
     commandSystem('rootpass', rootPass.value)
 
     // Clear form fields
-    const inputs = userForm.querySelectorAll('input');
+    const inputs = rootForm.querySelectorAll('input');
     inputs.forEach(input => {
-        rootForm.value = '';
+        input.value = '';
     });
 });
 
