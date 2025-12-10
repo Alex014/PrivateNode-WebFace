@@ -36,6 +36,42 @@
                 Upgrade System
             </button>
         </div>
+
+
+        <div class="action-card">
+            <div class="action-icon backup-icon" id="backup-btn">
+                <i class="fas fa-download"></i>
+            </div>
+            <h4>Backup</h4>
+            <p>Download a complete backup of your system configuration and wallet data.</p>
+            <button class="btn btn-success" id="download-backup-btn" data-command="backup">
+                <i class="fas fa-download"></i>
+                Download Backup
+            </button>
+        </div>
+
+
+        <div class="action-card">
+            <div class="action-icon restore-icon" id="restore-btn">
+                <i class="fas fa-upload"></i>
+                <input type="file" name="restore"/>
+            </div>
+            <h4>Restore</h4>
+            <p>Restore system configuration and wallet data from a backup file.</p>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="restore-confirmation" disabled>
+                <label for="restore-confirmation" class="checkbox-label">
+                    This action will replace the current NESS and Emercoin wallets with new ones. I understand the risk of loosing my data!
+                </label>
+            </div>
+            
+            <button class="btn btn-warning" id="make-restore-btn" data-command="restore" disabled>
+                <i class="fas fa-upload"></i>
+                Restore
+            </button>
+        </div>
+
     </div>
 </section>
 
@@ -73,6 +109,8 @@
     </div>
 </section>
 
+
+
 <script>
 // System actions
 const regenerateBtn = document.querySelector('.btn-primary');
@@ -84,6 +122,13 @@ const userForm = document.querySelector('.user-form');
 const userPass = userForm.querySelectorAll('input')[0];
 const userPassConfirm = userPass.nextElementSibling
 const userBtn = userForm.querySelectorAll('button')[0];
+const backupBtn = document.querySelector('#backup-btn')
+const dlBackupBtn = document.querySelector('#download-backup-btn')
+const restoreBtn = document.querySelector('#restore-btn')
+const restoreFile = document.querySelector("input[name=restore]")
+const restoreChk = document.querySelector('#restore-confirmation')
+const makeRestoreBtn = document.querySelector('#make-restore-btn')
+
 
 const rootForm = document.querySelector('.root-form');
 const rootPass = rootForm.querySelectorAll('input')[0];
@@ -107,10 +152,50 @@ upgradeBtn.addEventListener('click', function() {
 });
 
 sourceBtn.addEventListener('click', function() {
-    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updateing...';
+    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
     this.disabled = true;
     
     commandSystem(this.dataset.command)
+});
+
+backupBtn.addEventListener('click', function() {
+    this.nextElementSibling.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Backup...';
+    this.disabled = true;
+    
+    commandSystem('backup')
+});
+
+dlBackupBtn.addEventListener('click', function() {
+    window.location = "./download.php";
+});
+
+restoreBtn.addEventListener('click', function() {
+    restoreFile.click()
+});
+
+restoreChk.addEventListener('change', function() {
+    if (! this.disabled) {
+        makeRestoreBtn.disabled = (! this.checked)
+    } 
+});
+
+restoreFile.addEventListener('change', function() {
+    // makeRestoreBtn.innerHTML = '<i class="fas fa-upload"></i> Restore from ' + this.value
+    // restoreChk.disabled = false
+    let formData = new FormData();           
+    formData.append("file", this.files[0]);
+
+    fetch('upload.php', {
+      method: "POST", 
+      body: formData
+    });
+})
+
+makeRestoreBtn.addEventListener('click', function() {
+    this.disabled = true;
+    console.log(this.dataset.command)
+    commandSystem(this.dataset.command)
+
 });
 
 userBtn.addEventListener('click', function() {
@@ -236,6 +321,45 @@ function showSystem (commands) {
             } else if (ss == 'done') {
                 rootBtn.innerHTML = '<i class="fas fa-check"></i> Password Updated ' + dt;
                 rootBtn.disabled = false;
+            }
+        } else if (command == 'backup') {
+            if (commands[command]['last'] != false) {
+                dlBackupBtn.innerHTML = '<i class="fas fa-download"></i> Download Backup ' + commands[command]['last'];
+                dlBackupBtn.disabled = false
+            } else {
+                dlBackupBtn.disabled = true
+                dlBackupBtn.innerHTML = '<i class="fas fa-download"></i> Download Backup';
+            }
+
+            if (ss == 'iddle') {
+                backupBtn.nextElementSibling.innerHTML = 'Backup';
+                backupBtn.disabled = false;
+            } else if (ss == 'launch' || ss == 'running') {
+                backupBtn.nextElementSibling.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Backup...';
+                backupBtn.disabled = true;
+                dlBackupBtn.disabled = true
+            } else if (ss == 'done') {
+                backupBtn.nextElementSibling.innerHTML = '<i class="fas fa-check"></i> Backup OK ' + dt;
+                backupBtn.disabled = false;
+            }
+        } else if (command == 'restore') {
+            if (commands[command]['last'] != false) {
+                makeRestoreBtn.innerHTML = '<i class="fas fa-upload"></i> Restore from ' + commands[command]['last'];
+                restoreChk.disabled = false
+            } else {
+                restoreChk.disabled = true
+                makeRestoreBtn.innerHTML = '<i class="fas fa-upload"></i> Restore ';
+            }
+
+            if (ss == 'iddle') {
+                restoreBtn.nextElementSibling.innerHTML = 'Restore';
+                restoreBtn.disabled = false;
+            } else if (ss == 'launch' || ss == 'running') {
+                restoreBtn.nextElementSibling.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Restore...';
+                restoreBtn.disabled = true;
+            } else if (ss == 'done') {
+                restoreBtn.nextElementSibling.innerHTML = '<i class="fas fa-check"></i> Restore OK ' + dt;
+                restoreBtn.disabled = false;
             }
         }
     }

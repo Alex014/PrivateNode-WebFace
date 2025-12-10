@@ -1,19 +1,19 @@
 <?php
 require '../config.php';
-//phpinfo();
+// phpinfo();
 // var_dump($_SERVER['SERVER_PORT']);
-define('BASE_URL', "http://127.0.0.1:6660/");
+define('BASE_URL', 'http://127.0.0.1:6660/');
 
 $url = BASE_URL;
 $url_params = '';
 $headers = [];
 
-if (! empty($_GET)) {
+if (!empty($_GET)) {
     $url = BASE_URL . urldecode($_GET['path']);
     $params = $_GET;
     unset($params['path']);
 
-    if (!empty ($params)) {
+    if (!empty($params)) {
         $url_params = http_build_query($params);
         $url .= '?' . $url_params;
     }
@@ -38,13 +38,13 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 foreach (getallheaders() as $header => $value) {
     if ('X-CSRF-Token' === $header) {
-        $headers[] = "X-CSRF-Token: " . $value;
+        $headers[] = 'X-CSRF-Token: ' . $value;
     } elseif ('Content-Encoding' === $header) {
-        $headers[] = "Content-Encoding: " . $value;
+        $headers[] = 'Content-Encoding: ' . $value;
     } elseif ('Content-Type' === $header) {
-        $headers[] = "Content-Type: " . $value;
+        $headers[] = 'Content-Type: ' . $value;
     } elseif ('Content-Length' === $header) {
-        $headers[] = "Content-Length: " . $value;
+        $headers[] = 'Content-Length: ' . $value;
     }
     // $headers[] = $header . ': ' . $value;
 }
@@ -53,9 +53,9 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $body = curl_exec($ch);
 
-if ( !curl_errno($ch)) {
-    header ("Content-type: ".curl_getinfo($ch, CURLINFO_CONTENT_TYPE)."");
-    header ("Content-Length: ".curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD)."");
+if (!curl_errno($ch)) {
+    header('Content-type: ' . curl_getinfo($ch, CURLINFO_CONTENT_TYPE) . '');
+    header('Content-Length: ' . curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD) . '');
 } else {
     echo 'Curl error: ' . curl_error($ch);
     die(1);

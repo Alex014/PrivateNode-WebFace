@@ -1,13 +1,13 @@
 <?php
-//Param check
-if (! empty($_POST)) {
-    if (!isset ($_POST['command'])) {
+// Param check
+if (!empty($_POST)) {
+    if (!isset($_POST['command'])) {
         echo json_encode(['err' => 'Empty command']);
     }
 
     $command = $_POST['command'];
 
-    if (!in_array ($command, ['sysupgrade', 'cert', 'userpass', 'rootpass'])) {
+    if (!in_array($command, ['sysupgrade', 'cert', 'userpass', 'rootpass'])) {
         echo json_encode(['err' => 'Wrong command']);
     }
 
@@ -18,22 +18,22 @@ if (! empty($_POST)) {
     }
 }
 
-$fcommands = "/home/privateness/commands.json";
+$fcommands = '/home/privateness/commands.json';
 
 if (!file_exists($fcommands)) {
     echo json_encode(['err' => 'Commands file not exist']);
 }
 
-//Write to file
+// Write to file
 $commands = json_decode(file_get_contents($fcommands), true);
 
-//Write to file
+// Write to file
 
-if (! empty($_POST)) {
+if (!empty($_POST)) {
     $commands[$command]['status'] = 'launch';
     $commands[$command]['param'] = $param;
     file_put_contents($fcommands, json_encode($commands, JSON_PRETTY_PRINT));
 }
 
-header("Content-type: application/json; charset=UTF-8");
+header('Content-type: application/json; charset=UTF-8');
 echo file_get_contents($fcommands);

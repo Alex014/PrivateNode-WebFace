@@ -319,6 +319,26 @@
             background: linear-gradient(135deg, var(--other),rgb(3, 63, 38));
         }
 
+        .backup-icon {
+            background: linear-gradient(135deg, var(--success), #16a34a);
+        }
+
+        #backup-btn {
+            cursor: pointer;
+        }
+
+        #restore-btn {
+            cursor: pointer;
+        }
+
+        #restore-confirmation,.checkbox-label {
+            cursor: pointer;
+        }
+
+        .restore-icon {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
         .action-card h4 {
             font-size: 1.3rem;
             margin-bottom: 0.8rem;
@@ -462,6 +482,10 @@
             color: var(--warning);
             font-weight: 600;
         }
+
+        input[name=restore] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -478,7 +502,7 @@
                     <div class="tagline">Control Panel</div>
                 </div>
             </div>
-            <a href="http://<?=IPADDR?>" class="back-btn">
+            <a href="http://<?= IPADDR ?>" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
                 Back to Dashboard
             </a>

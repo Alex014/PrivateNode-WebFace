@@ -1,387 +1,401 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>PrivateNess Network</title>  
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrivateNess Network</title>
     <style>
-    
-     :root {
-            --primary: #3a86ff;
-            --secondary: #8338ec;
-            --accent: #ff006e;
-            --dark: #0d1b2a;
-            --darker: #070f1c;
-            --light: #e0e1dd;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --glow: 0 0 20px rgba(58, 134, 255, 0.3);
+      :root {
+        --primary: #3a86ff;
+        --secondary: #8338ec;
+        --accent: #ff006e;
+        --dark: #0d1b2a;
+        --darker: #070f1c;
+        --light: #e0e1dd;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --glow: 0 0 20px rgba(58, 134, 255, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #0d1b2a 0%,
+          #1b263b 100%,
+          #415a77 100%
+        );
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        max-width: 95%;
+        margin: 0 auto;
+        padding: 20px;
+        flex: 1;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        margin-bottom: 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #4cc9f0, #4361ee);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+      }
+
+      .logo-icon span {
+        font-weight: bold;
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        font-weight: 700;
+        background: linear-gradient(to right, #4cc9f0, #4361ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 10px rgba(76, 201, 240, 0.3);
+      }
+
+      .tagline {
+        font-size: 14px;
+        color: #a0a0c0;
+        margin-top: 5px;
+      }
+
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 60px;
+      }
+
+      .network-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .status-indicator {
+        width: 12px;
+        height: 12px;
+        background: #4ade80;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
         }
-    
-    
-    
-        * {  
-            margin: 0;  
-            padding: 0;  
-            box-sizing: border-box;  
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
-        }  
-  
-        body {  
-            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%, #415a77 100%);  
-            color: #fff;  
-            min-height: 100vh;  
-            display: flex;  
-            flex-direction: column;  
-        }  
-  
-        .container {  
-            max-width: 95%;  
-            margin: 0 auto;  
-            padding: 20px;  
-            flex: 1;  
-        }  
-  
-        header {  
-            display: flex;  
-            justify-content: space-between;  
-            align-items: center;  
-            padding: 20px 0;  
-            margin-bottom: 40px;  
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);  
-        }  
-  
-        .logo {  
-            display: flex;  
-            align-items: center;  
-            gap: 15px;  
-        }  
-  
-        .logo-icon {  
-            width: 50px;  
-            height: 50px;  
-            background: linear-gradient(135deg, #4cc9f0, #4361ee);  
-            border-radius: 12px;  
-            display: flex;  
-            align-items: center;  
-            justify-content: center;  
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);  
-        }  
-  
-        .logo-icon span {  
-            font-weight: bold;  
-            font-size: 24px;  
-            color: white;  
-        }  
-  
-        .logo-text {  
-            font-size: 28px;  
-            font-weight: 700;  
-            background: linear-gradient(to right, #4cc9f0, #4361ee);  
-            -webkit-background-clip: text;  
-            background-clip: text;  
-            color: transparent;  
-            text-shadow: 0 2px 10px rgba(76, 201, 240, 0.3);  
-        }  
-  
-        .tagline {  
-            font-size: 14px;  
-            color: #a0a0c0;  
-            margin-top: 5px;  
-        }  
-  
-        .main-content {  
-            display: flex;  
-            flex-direction: column;  
-            align-items: center;  
-            margin-bottom: 60px;  
-        }  
-  
-        .network-status {  
-            display: flex;  
-            align-items: center;  
-            gap: 10px;  
-            margin-bottom: 30px;  
-            padding: 10px 20px;  
-            background: rgba(255, 255, 255, 0.05);  
-            border-radius: 30px;  
-            backdrop-filter: blur(10px);  
-            border: 1px solid rgba(255, 255, 255, 0.1);  
-        }  
-  
-        .status-indicator {  
-            width: 12px;  
-            height: 12px;  
-            background: #4ade80;  
-            border-radius: 50%;  
-            animation: pulse 2s infinite;  
-        }  
-  
-        @keyframes pulse {  
-            0% { opacity: 1; }  
-            50% { opacity: 0.5; }  
-            100% { opacity: 1; }  
-        }  
-  
-        .links-section {  
-            width: 100%;  
-            margin: 40px 0;  
-        }  
-  
-        .section-title {  
-            font-size: 32px;  
-            text-align: center;  
-            margin-bottom: 40px;  
-            color: #fff;  
-        }  
-  
-        .links-grid {  
-            display: grid;  
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));  
-            gap: 25px;  
-        }  
-  
-        .link-card {
-            /*background: var(--card-bg);*/
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .links-section {
+        width: 100%;
+        margin: 40px 0;
+      }
+
+      .section-title {
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 40px;
+        color: #fff;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+      }
+
+      .link-card {
+        /*background: var(--card-bg);*/
+        border-radius: 1.5rem;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--card-border);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .link-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        /* background: linear-gradient(to right, var(--primary), var(--secondary));*/
+      }
+
+      .link-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .link-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .cp-icon {
+        background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      }
+
+      .wallet-icon {
+        background: linear-gradient(135deg, #4ecdc4, #6ae0d7);
+      }
+
+      .explorer-icon {
+        background: linear-gradient(135deg, #45b7d1, #6ac9e0);
+      }
+
+      .blog-icon {
+        background: linear-gradient(135deg, #96ceb4, #b4e0c9);
+      }
+
+      .ipfs-icon {
+        background: linear-gradient(135deg, #ffe66d, #fff18f);
+      }
+
+      .link-card h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: white;
+      }
+
+      .link-card p {
+        color: #b8b8d0;
+        font-size: 14px;
+        margin-bottom: 20px;
+        flex: 1;
+      }
+
+      .link-button {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 14px;
+        transition: background 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .link-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 60px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #a0a0c0;
+        font-size: 14px;
+      }
+
+      .security-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 5px 15px;
+        background: rgba(76, 201, 240, 0.1);
+        border-radius: 20px;
+        border: 1px solid rgba(76, 201, 240, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .links-grid {
+          grid-template-columns: 1fr;
         }
 
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-           /* background: linear-gradient(to right, var(--primary), var(--secondary));*/
+        .logo-text {
+          font-size: 24px;
         }
-        
-  
-        .link-card:hover {  
-            transform: translateY(-10px);  
-            background: rgba(255, 255, 255, 0.1);  
-        }  
-  
-        .link-icon {  
-            width: 60px;  
-            height: 60px;  
-            margin: 0 auto 15px;  
-            border-radius: 12px;  
-            display: flex;  
-            align-items: center;  
-            justify-content: center;  
-            font-size: 24px;  
-        }  
-  
-        .cp-icon {  
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);  
-        }  
-  
-        .wallet-icon {  
-            background: linear-gradient(135deg, #4ecdc4, #6ae0d7);  
-        }  
-  
-        .explorer-icon {  
-            background: linear-gradient(135deg, #45b7d1, #6ac9e0);  
-        }  
-  
-        .blog-icon {  
-            background: linear-gradient(135deg, #96ceb4, #b4e0c9);  
-        }  
-  
-        .ipfs-icon {  
-            background: linear-gradient(135deg, #ffe66d, #fff18f);  
-        }  
-  
-        .link-card h3 {  
-            font-size: 20px;  
-            margin-bottom: 10px;  
-            color: white;  
-        }  
-  
-        .link-card p {  
-            color: #b8b8d0;  
-            font-size: 14px;  
-            margin-bottom: 20px;  
-            flex: 1;  
-        }  
-  
-        .link-button {  
-            display: inline-block;  
-            padding: 8px 20px;  
-            background: rgba(255, 255, 255, 0.1);  
-            color: white;  
-            text-decoration: none;  
-            border-radius: 20px;  
-            font-size: 14px;  
-            transition: background 0.3s;  
-            border: 1px solid rgba(255, 255, 255, 0.2);  
-        }
-        
-    
-  
-        .link-button:hover {  
-            background: rgba(255, 255, 255, 0.2);  
-        }  
-  
-        footer {  
-            text-align: center;  
-            padding: 30px 0;  
-            margin-top: 60px;  
-            border-top: 1px solid rgba(255, 255, 255, 0.1);  
-            color: #a0a0c0;  
-            font-size: 14px;  
-        }  
-  
-        .security-badge {  
-            display: inline-flex;  
-            align-items: center;  
-            gap: 8px;  
-            margin-top: 10px;  
-            padding: 5px 15px;  
-            background: rgba(76, 201, 240, 0.1);  
-            border-radius: 20px;  
-            border: 1px solid rgba(76, 201, 240, 0.3);  
-        }  
-  
-        @media (max-width: 768px) {  
-            .links-grid {  
-                grid-template-columns: 1fr;  
-            }  
-              
-            .logo-text {  
-                font-size: 24px;  
-            }  
-        }  
-    </style>  
-</head>  
-<body>  
-    <div class="container">  
-        <header>  
-            <div class="logo">  
-                <div class="logo-icon">  
-                    <img src="" alt="Ness_logo" />
-                </div>  
-                <div>  
-                    <div class="logo-text">PrivateNess Network</div>  
-                    <div class="tagline">Secure. Private. Decentralized.</div>  
-                </div>  
-            </div>  
-        </header>  
-  
-        <section class="main-content">  
-            <div class="network-status">  
-                <div class="status-indicator"></div>  
-                <span>Network Status</span>  
-            </div>  
-  
-            <section class="links-section">  
-                <h2 class="section-title">Service Node</h2>  
-                <div class="links-grid">  
-                    <div class="link-card">  
-                        <div class="link-icon cp-icon">  
-                            ⚙️  
-                        </div>  
-                        <h3>Control Panel</h3>  
-                        <p>Manage your PrivateNess network settings, nodes, and security configurations.</p>  
-                        <a href="#" class="link-button">Access CPanel</a>  
-                    </div>  
-  
-                    <div class="link-card">  
-                        <div class="link-icon wallet-icon">  
-                            💳  
-                        </div>  
-                        <h3>Wallet</h3>  
-                        <p>Secure cryptocurrency wallet for PrivateNess network transactions and assets.</p>  
-                        <a href="#" class="link-button">Open Wallet</a>  
-                    </div>  
-  
-                    <div class="link-card">  
-                        <div class="link-icon explorer-icon">  
-                            🔍  
-                        </div>  
-                        <h3>Explorer</h3>  
-                        <p>Browse the PrivateNess network blockchain and transaction history.</p>  
-                        <a href="#" class="link-button">Launch Explorer</a>  
-                    </div>  
-  
-                    <div class="link-card">  
-                        <div class="link-icon blog-icon">  
-                            📝  
-                        </div>  
-                        <h3>Private Blog</h3>  
-                        <p>Encrypted blogging platform for secure communication within the network.</p>  
-                        <a href="#" class="link-button">Visit Blog</a>  
-                    </div>  
-  
-                    <div class="link-card">  
-                        <div class="link-icon ipfs-icon">  
-                            🌐  
-                        </div>  
-                        <h3>IPFS</h3>  
-                        <p>Access the InterPlanetary File System for decentralized storage on PrivateNess.</p>  
-                        <a href="#" class="link-button">Enter IPFS</a>  
-                    </div>  
-                </div>  
-            </section>  
-        </section>  
-  
-        <footer>  
-            <p>© <span id="currentYear"></span> PrivateNess Network. All rights reserved.</p>  
-        </footer>  
-    </div>  
-  
-    <script>  
-        // Set current year in footer  
-        document.getElementById('currentYear').textContent = new Date().getFullYear();  
-          
-        // Add some interactive effects  
-        document.addEventListener('DOMContentLoaded', function() {  
-            const cards = document.querySelectorAll('.link-card');  
-              
-            cards.forEach(card => {  
-                card.addEventListener('mouseenter', function() {  
-                    this.style.transform = 'translateY(-10px)';  
-                });  
-                  
-                card.addEventListener('mouseleave', function() {  
-                    this.style.transform = 'translateY(0)';  
-                });  
-            });  
-              
-            // Animate elements on scroll  
-            const observerOptions = {  
-                threshold: 0.1,  
-                rootMargin: '0px 0px -50px 0px'  
-            };  
-              
-            const observer = new IntersectionObserver(function(entries) {  
-                entries.forEach(entry => {  
-                    if (entry.isIntersecting) {  
-                        entry.target.style.opacity = 1;  
-                        entry.target.style.transform = 'translateY(0)';  
-                    }  
-                });  
-            }, observerOptions);  
-              
-            const animatedElements = document.querySelectorAll('.link-card');  
-            animatedElements.forEach(el => {  
-                el.style.opacity = 0;  
-                el.style.transform = 'translateY(20px)';  
-                el.style.transition = 'opacity 0.5s, transform 0.5s';  
-                observer.observe(el);  
-            });  
-        });  
-    </script>  
-</body>  
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">
+            <img src="" alt="Ness_logo" />
+          </div>
+          <div>
+            <div class="logo-text">PrivateNess Network</div>
+            <div class="tagline">Secure. Private. Decentralized.</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="main-content">
+        <div class="network-status">
+          <div class="status-indicator"></div>
+          <span>Network Status</span>
+        </div>
+
+        <section class="links-section">
+          <h2 class="section-title">Service Node</h2>
+          <div class="links-grid">
+            <div class="link-card">
+              <div class="link-icon cp-icon">⚙️</div>
+              <h3>Control Panel</h3>
+              <p>
+                Manage your PrivateNess network settings, nodes, and security
+                configurations.
+              </p>
+              <a href="#" class="link-button">Access CPanel</a>
+            </div>
+
+            <div class="link-card">
+              <div class="link-icon wallet-icon">💳</div>
+              <h3>Wallet</h3>
+              <p>
+                Secure cryptocurrency wallet for PrivateNess network
+                transactions and assets.
+              </p>
+              <a href="#" class="link-button">Open Wallet</a>
+            </div>
+
+            <div class="link-card">
+              <div class="link-icon explorer-icon">🔍</div>
+              <h3>Explorer</h3>
+              <p>
+                Browse the PrivateNess network blockchain and transaction
+                history.
+              </p>
+              <a href="#" class="link-button">Launch Explorer</a>
+            </div>
+
+            <div class="link-card">
+              <div class="link-icon blog-icon">📝</div>
+              <h3>Private Blog</h3>
+              <p>
+                Encrypted blogging platform for secure communication within the
+                network.
+              </p>
+              <a href="#" class="link-button">Visit Blog</a>
+            </div>
+
+            <div class="link-card">
+              <div class="link-icon ipfs-icon">🌐</div>
+              <h3>IPFS</h3>
+              <p>
+                Access the InterPlanetary File System for decentralized storage
+                on PrivateNess.
+              </p>
+              <a href="#" class="link-button">Enter IPFS</a>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <p>
+          © <span id="currentYear"></span> PrivateNess Network. All rights
+          reserved.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Set current year in footer
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+
+      // Add some interactive effects
+      document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".link-card");
+
+        cards.forEach((card) => {
+          card.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-10px)";
+          });
+
+          card.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0)";
+          });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        }, observerOptions);
+
+        const animatedElements = document.querySelectorAll(".link-card");
+        animatedElements.forEach((el) => {
+          el.style.opacity = 0;
+          el.style.transform = "translateY(20px)";
+          el.style.transition = "opacity 0.5s, transform 0.5s";
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
 </html>

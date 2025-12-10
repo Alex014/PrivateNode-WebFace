@@ -1,919 +1,956 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blockchain Explorer - PrivateNess Network</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary: #3a86ff;
-            --secondary: #8338ec;
-            --accent: #ff006e;
-            --dark: #0d1b2a;
-            --darker: #070f1c;
-            --light: #e0e1dd;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --glow: 0 0 20px rgba(58, 134, 255, 0.3);
-            --success: #4ade80;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
+      :root {
+        --primary: #3a86ff;
+        --secondary: #8338ec;
+        --accent: #ff006e;
+        --dark: #0d1b2a;
+        --darker: #070f1c;
+        --light: #e0e1dd;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --glow: 0 0 20px rgba(58, 134, 255, 0.3);
+        --success: #4ade80;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        body {
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1b263b 100%);
-            color: var(--light);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--darker) 0%,
+          var(--dark) 50%,
+          #1b263b 100%
+        );
+        color: var(--light);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(58, 134, 255, 0.1);
-            animation: float 15s infinite linear;
-        }
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(58, 134, 255, 0.1);
+        animation: float 15s infinite linear;
+      }
 
-        @keyframes float {
-            0% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-20px) translateX(10px); }
-            100% { transform: translateY(0) translateX(0); }
+      @keyframes float {
+        0% {
+          transform: translateY(0) translateX(0);
         }
+        50% {
+          transform: translateY(-20px) translateX(10px);
+        }
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+      }
 
+      .container {
+        max-width: 95%;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-text {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 10px rgba(58, 134, 255, 0.3);
+      }
+
+      .tagline {
+        font-size: 1rem;
+        color: #a0a0c0;
+        margin-top: 0.3rem;
+        letter-spacing: 1px;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 6px 20px rgba(58, 134, 255, 0.3);
+        transform: translateY(-3px);
+      }
+
+      .explorer-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .section-title {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #fff;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        border-radius: 3px;
+      }
+
+      .explorer-section {
+        background: var(--card-bg);
+        border-radius: 1.5rem;
+        padding: 2.5rem 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--card-border);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .explorer-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+      }
+
+      .explorer-section:hover {
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow:
+          0 15px 30px rgba(0, 0, 0, 0.3),
+          var(--glow);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid var(--card-border);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-5px);
+      }
+
+      .stat-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin: 0 auto 1rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .block-icon {
+        background: linear-gradient(135deg, var(--primary), #4895ef);
+      }
+
+      .transaction-icon {
+        background: linear-gradient(135deg, var(--secondary), #3a0ca3);
+      }
+
+      .coin-hours-icon {
+        background: linear-gradient(135deg, #7209b7, #560bad);
+      }
+
+      .node-icon {
+        background: linear-gradient(135deg, var(--accent), #b5179e);
+      }
+
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: white;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #b8b8d0;
+      }
+
+      .search-box {
+        display: flex;
+        margin-bottom: 2rem;
+      }
+
+      .search-input {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--card-border);
+        border-radius: 1rem 0 0 1rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.3);
+      }
+
+      .search-btn {
+        padding: 0 1.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 0 1rem 1rem 0;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .search-btn:hover {
+        background: linear-gradient(135deg, #2a76e6, #7228d4);
+      }
+
+      .blocks-list,
+      .transactions-list {
+        max-height: 500px;
+        overflow-y: auto;
+        margin-top: 1.5rem;
+      }
+
+      .block-item,
+      .transaction-item {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--card-border);
+        transition: all 0.3s ease;
+      }
+
+      .block-item:hover,
+      .transaction-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-3px);
+      }
+
+      .block-header,
+      .transaction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .block-hash,
+      .transaction-hash {
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #b8b8d0;
+      }
+
+      .block-height,
+      .transaction-amount {
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: white;
+        margin-left: 3px;
+      }
+
+      .transaction-amount {
+        font-size: 0.5rem;
+      }
+
+      .block-details,
+      .transaction-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .detail-label {
+        font-size: 0.8rem;
+        color: #b8b8d0;
+        margin-bottom: 0.3rem;
+      }
+
+      .detail-value {
+        font-size: 0.9rem;
+        color: white;
+        font-weight: 600;
+      }
+
+      .view-all {
+        display: block;
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .view-all:hover {
+        color: var(--secondary);
+      }
+
+      footer {
+        text-align: center;
+        padding: 3rem 0;
+        margin-top: 5rem;
+        border-top: 1px solid var(--card-border);
+        color: #a0a0c0;
+        font-size: 1rem;
+      }
+
+      @media (max-width: 768px) {
         .container {
-            max-width: 95%;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-icon {
-            width: 3.5rem;
-            height: 3.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--glow);
-            position: relative;
-            overflow: hidden;
+          max-width: 98%;
         }
 
         .logo-text {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 10px rgba(58, 134, 255, 0.3);
+          font-size: 1.8rem;
         }
 
-        .tagline {
-            font-size: 1rem;
-            color: #a0a0c0;
-            margin-top: 0.3rem;
-            letter-spacing: 1px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.7rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            border-radius: 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 6px 20px rgba(58, 134, 255, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .explorer-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #fff;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 3px;
-        }
-
-        .explorer-section {
-            background: var(--card-bg);
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .explorer-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-
-        .explorer-section:hover {
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--glow);
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
         }
 
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+          grid-template-columns: repeat(2, 1fr);
         }
 
-        .stat-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid var(--card-border);
-            transition: all 0.3s ease;
+        .block-details,
+        .transaction-details {
+          grid-template-columns: 1fr;
         }
+      }
 
-        .stat-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-
-        .stat-icon {
-            width: 3.5rem;
-            height: 3.5rem;
-            margin: 0 auto 1rem;
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
-        .block-icon {
-            background: linear-gradient(135deg, var(--primary), #4895ef);
-        }
+      .explorer-section {
+        animation: fadeInUp 0.6s ease forwards;
+        opacity: 0;
+      }
 
-        .transaction-icon {
-            background: linear-gradient(135deg, var(--secondary), #3a0ca3);
-        }
+      .explorer-section:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .explorer-section:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .explorer-section:nth-child(3) {
+        animation-delay: 0.3s;
+      }
 
-        .coin-hours-icon {
-            background: linear-gradient(135deg, #7209b7, #560bad);
-        }
-
-        .node-icon {
-            background: linear-gradient(135deg, var(--accent), #b5179e);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: white;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #b8b8d0;
-        }
-
-        .search-box {
-            display: flex;
-            margin-bottom: 2rem;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--card-border);
-            border-radius: 1rem 0 0 1rem;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.3);
-        }
-
-        .search-btn {
-            padding: 0 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 0 1rem 1rem 0;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
-            background: linear-gradient(135deg, #2a76e6, #7228d4);
-        }
-
-        .blocks-list, .transactions-list {
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 1.5rem;
-        }
-
-        .block-item, .transaction-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--card-border);
-            transition: all 0.3s ease;
-        }
-
-        .block-item:hover, .transaction-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-3px);
-        }
-
-        .block-header, .transaction-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .block-hash, .transaction-hash {
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: #b8b8d0;
-        }
-
-        .block-height, .transaction-amount {
-            font-weight: 700;
-            font-size: 0.8rem;
-            color: white;
-            margin-left: 3px;
-        }
-        
-        .transaction-amount {
-            font-size: 0.5rem;
-           
-        }
-        
-
-        .block-details, .transaction-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .detail-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .detail-label {
-            font-size: 0.8rem;
-            color: #b8b8d0;
-            margin-bottom: 0.3rem;
-        }
-
-        .detail-value {
-            font-size: 0.9rem;
-            color: white;
-            font-weight: 600;
-        }
-
-        .view-all {
-            display: block;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .view-all:hover {
-            color: var(--secondary);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            margin-top: 5rem;
-            border-top: 1px solid var(--card-border);
-            color: #a0a0c0;
-            font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                max-width: 98%;
-            }
-            
-            .logo-text {
-                font-size: 1.8rem;
-            }
-            
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .block-details, .transaction-details {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .explorer-section {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .explorer-section:nth-child(1) { animation-delay: 0.1s; }
-        .explorer-section:nth-child(2) { animation-delay: 0.2s; }
-        .explorer-section:nth-child(3) { animation-delay: 0.3s; }
-        
-        
- 
-
-
-    .explorer-section > .stats-grid {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    
-    .explorer-section .stats-grid .stat-card {
-      min-width: 0; 
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      gap: 0.35rem;
-    }
-    
-    
-    .explorer-section .stats-grid .stat-value {
-      min-width: 0; 
-      max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: clamp(1rem, 3.2vw, 1.8rem);
-      line-height: 1;
-      font-weight: 700;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .explorer-section .stats-grid .stat-label {
-      width: 100%;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #b8b8d0;
-      white-space: normal;
-      margin-top: 0.15rem;
-    }
-    
-    .search-box {
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      gap: 0;
-      align-items: center;
-    }
-    
-    .search-box .search-input {
-      flex: 1 1 auto;
-      min-width: 0;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-    
-    .search-box .search-btn {
-      flex: 0 0 auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 1.5rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border: none;
-      border-radius: 0 1rem 1rem 0;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      height: 100%; 
-      min-height: 52px;
-    }
-    
-    @media (max-width: 480px) {
       .explorer-section > .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.6rem;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        width: 100%;
+        box-sizing: border-box;
       }
+
       .explorer-section .stats-grid .stat-card {
-        padding: 0.6rem;
+        min-width: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        gap: 0.35rem;
       }
+
       .explorer-section .stats-grid .stat-value {
-        font-size: 1rem;
-      }
-      
-      
-      .section-title {
-        position: static;
-        left: auto;
-        transform: none;
-        display: block;
-        margin-left: 0;
-        margin-right: 0;
+        min-width: 0;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: clamp(1rem, 3.2vw, 1.8rem);
+        line-height: 1;
+        font-weight: 700;
+        color: #fff;
         text-align: center;
       }
-      .container { padding-left: 1rem; padding-right: 1rem; }
-    }
-            
-    </style>
-</head>
-<body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div>
-                    <div class="logo-text">PrivateNess Network</div>
-                    <div class="tagline">Skycoin Fiber Blockchain Explorer</div>
-                </div>
-            </div>
-            <a href="index.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i>
-                Back to Dashboard
-            </a>
-        </header>
-        
-        <div class="explorer-container">
-            <section class="explorer-section">
-                <h2 class="section-title">Network Overview</h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon block-icon">
-                            <i class="fas fa-cube"></i>
-                        </div>
-                        <div class="stat-value">1,245,892</div>
-                        <div class="stat-label">Blocks</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon transaction-icon">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <div class="stat-value">8,452,167</div>
-                        <div class="stat-label">Transactions</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon coin-hours-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-value">24.89M NCH</div>
-                        <div class="stat-label">Coin Hours</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon node-icon">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <div class="stat-value">1,248</div>
-                        <div class="stat-label">Active Nodes</div>
-                    </div>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Search by block height, transaction hash, or address...">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </section>
-            
-            <section class="explorer-section">
-                <h2 class="section-title">Latest Blocks</h2>
-                
-                <div class="blocks-list">
-                    <div class="block-item">
-                        <div class="block-header">
-                            <div class="block-height">Block #1,245,892</div>
-                            <div class="block-hash">0x8f3a...c7b2</div>
-                        </div>
-                        <div class="block-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">2 minutes ago</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Transactions</div>
-                                <div class="detail-value">142</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Size</div>
-                                <div class="detail-value">1.24 MB</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Validator</div>
-                                <div class="detail-value">0xa4b2...e9f1</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="block-item">
-                        <div class="block-header">
-                            <div class="block-height">Block #1,245,891</div>
-                            <div class="block-hash">0x7e5d...a9c3</div>
-                        </div>
-                        <div class="block-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">5 minutes ago</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Transactions</div>
-                                <div class="detail-value">98</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Size</div>
-                                <div class="detail-value">0.87 MB</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Validator</div>
-                                <div class="detail-value">0xb8c3...f7a2</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="block-item">
-                        <div class="block-header">
-                            <div class="block-height">Block #1,245,890</div>
-                            <div class="block-hash">0x9a2b...d8e4</div>
-                        </div>
-                        <div class="block-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">8 minutes ago</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Transactions</div>
-                                <div class="detail-value">156</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Size</div>
-                                <div class="detail-value">1.42 MB</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Validator</div>
-                                <div class="detail-value">0xc5d9...b6e1</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="block-item">
-                        <div class="block-header">
-                            <div class="block-height">Block #1,245,889</div>
-                            <div class="block-hash">0x3f7a...e2c5</div>
-                        </div>
-                        <div class="block-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">11 minutes ago</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Transactions</div>
-                                <div class="detail-value">87</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Size</div>
-                                <div class="detail-value">0.76 MB</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Validator</div>
-                                <div class="detail-value">0xd2e7...a4f9</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <a href="#" class="view-all">View All Blocks <i class="fas fa-arrow-right"></i></a>
-            </section>
-            
-            <section class="explorer-section">
-                <h2 class="section-title">Recent Transactions</h2>
-                
-                <div class="transactions-list">
-                    <div class="transaction-item">
-                        <div class="transaction-header">
-                            <div class="transaction-hash">0x8a3b...d9e4</div>
-                            <div class="transaction-amount">125.50 NESS + 600 NCH</div>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="detail-item">
-                                <div class="detail-label">From</div>
-                                <div class="detail-value">0xa4b2...e9f1</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">To</div>
-                                <div class="detail-value">0xb8c3...f7a2</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Block</div>
-                                <div class="detail-value">1,245,892</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">1 minute ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="transaction-item">
-                        <div class="transaction-header">
-                            <div class="transaction-hash">0x7c2d...a8b3</div>
-                            <div class="transaction-amount">350.00 NESS + 1000 NCH</div>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="detail-item">
-                                <div class="detail-label">From</div>
-                                <div class="detail-value">0xc5d9...b6e1</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">To</div>
-                                <div class="detail-value">0xa4b2...e9f1</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Block</div>
-                                <div class="detail-value">1,245,892</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">2 minutes ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="transaction-item">
-                        <div class="transaction-header">
-                            <div class="transaction-hash">0x9e4f...c7a2</div>
-                            <div class="transaction-amount">12.75 NESS + 45 NCH</div>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="detail-item">
-                                <div class="detail-label">From</div>
-                                <div class="detail-value">Network</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">To</div>
-                                <div class="detail-value">0xd2e7...a4f9</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Block</div>
-                                <div class="detail-value">1,245,891</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">5 minutes ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="transaction-item">
-                        <div class="transaction-header">
-                            <div class="transaction-hash">0x5b8a...d3e7</div>
-                            <div class="transaction-amount">500.00 NESS + 120 NCH</div>
-                        </div>
-                        <div class="transaction-details">
-                            <div class="detail-item">
-                                <div class="detail-label">From</div>
-                                <div class="detail-value">0xb8c3...f7a2</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">To</div>
-                                <div class="detail-value">Exchange</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Block</div>
-                                <div class="detail-value">1,245,890</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Timestamp</div>
-                                <div class="detail-value">8 minutes ago</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <a href="#" class="view-all">View All Transactions <i class="fas fa-arrow-right"></i></a>
-            </section>
-        </div>
 
-        <footer>
-            <p>© <span id="currentYear"></span> PrivateNess Network. All rights reserved.</p>
-        </footer>
+      .explorer-section .stats-grid .stat-label {
+        width: 100%;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #b8b8d0;
+        white-space: normal;
+        margin-top: 0.15rem;
+      }
+
+      .search-box {
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        gap: 0;
+        align-items: center;
+      }
+
+      .search-box .search-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .search-box .search-btn {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 0 1rem 1rem 0;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+        min-height: 52px;
+      }
+
+      @media (max-width: 480px) {
+        .explorer-section > .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.6rem;
+        }
+        .explorer-section .stats-grid .stat-card {
+          padding: 0.6rem;
+        }
+        .explorer-section .stats-grid .stat-value {
+          font-size: 1rem;
+        }
+
+        .section-title {
+          position: static;
+          left: auto;
+          transform: none;
+          display: block;
+          margin-left: 0;
+          margin-right: 0;
+          text-align: center;
+        }
+        .container {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div>
+            <div class="logo-text">PrivateNess Network</div>
+            <div class="tagline">Skycoin Fiber Blockchain Explorer</div>
+          </div>
+        </div>
+        <a href="index.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Back to Dashboard
+        </a>
+      </header>
+
+      <div class="explorer-container">
+        <section class="explorer-section">
+          <h2 class="section-title">Network Overview</h2>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon block-icon">
+                <i class="fas fa-cube"></i>
+              </div>
+              <div class="stat-value">1,245,892</div>
+              <div class="stat-label">Blocks</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon transaction-icon">
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div class="stat-value">8,452,167</div>
+              <div class="stat-label">Transactions</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon coin-hours-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-value">24.89M NCH</div>
+              <div class="stat-label">Coin Hours</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon node-icon">
+                <i class="fas fa-server"></i>
+              </div>
+              <div class="stat-value">1,248</div>
+              <div class="stat-label">Active Nodes</div>
+            </div>
+          </div>
+
+          <div class="search-box">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search by block height, transaction hash, or address..."
+            />
+            <button class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </section>
+
+        <section class="explorer-section">
+          <h2 class="section-title">Latest Blocks</h2>
+
+          <div class="blocks-list">
+            <div class="block-item">
+              <div class="block-header">
+                <div class="block-height">Block #1,245,892</div>
+                <div class="block-hash">0x8f3a...c7b2</div>
+              </div>
+              <div class="block-details">
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">2 minutes ago</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Transactions</div>
+                  <div class="detail-value">142</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Size</div>
+                  <div class="detail-value">1.24 MB</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Validator</div>
+                  <div class="detail-value">0xa4b2...e9f1</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-item">
+              <div class="block-header">
+                <div class="block-height">Block #1,245,891</div>
+                <div class="block-hash">0x7e5d...a9c3</div>
+              </div>
+              <div class="block-details">
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">5 minutes ago</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Transactions</div>
+                  <div class="detail-value">98</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Size</div>
+                  <div class="detail-value">0.87 MB</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Validator</div>
+                  <div class="detail-value">0xb8c3...f7a2</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-item">
+              <div class="block-header">
+                <div class="block-height">Block #1,245,890</div>
+                <div class="block-hash">0x9a2b...d8e4</div>
+              </div>
+              <div class="block-details">
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">8 minutes ago</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Transactions</div>
+                  <div class="detail-value">156</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Size</div>
+                  <div class="detail-value">1.42 MB</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Validator</div>
+                  <div class="detail-value">0xc5d9...b6e1</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-item">
+              <div class="block-header">
+                <div class="block-height">Block #1,245,889</div>
+                <div class="block-hash">0x3f7a...e2c5</div>
+              </div>
+              <div class="block-details">
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">11 minutes ago</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Transactions</div>
+                  <div class="detail-value">87</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Size</div>
+                  <div class="detail-value">0.76 MB</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Validator</div>
+                  <div class="detail-value">0xd2e7...a4f9</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="view-all"
+            >View All Blocks <i class="fas fa-arrow-right"></i
+          ></a>
+        </section>
+
+        <section class="explorer-section">
+          <h2 class="section-title">Recent Transactions</h2>
+
+          <div class="transactions-list">
+            <div class="transaction-item">
+              <div class="transaction-header">
+                <div class="transaction-hash">0x8a3b...d9e4</div>
+                <div class="transaction-amount">125.50 NESS + 600 NCH</div>
+              </div>
+              <div class="transaction-details">
+                <div class="detail-item">
+                  <div class="detail-label">From</div>
+                  <div class="detail-value">0xa4b2...e9f1</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">To</div>
+                  <div class="detail-value">0xb8c3...f7a2</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Block</div>
+                  <div class="detail-value">1,245,892</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">1 minute ago</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-header">
+                <div class="transaction-hash">0x7c2d...a8b3</div>
+                <div class="transaction-amount">350.00 NESS + 1000 NCH</div>
+              </div>
+              <div class="transaction-details">
+                <div class="detail-item">
+                  <div class="detail-label">From</div>
+                  <div class="detail-value">0xc5d9...b6e1</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">To</div>
+                  <div class="detail-value">0xa4b2...e9f1</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Block</div>
+                  <div class="detail-value">1,245,892</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">2 minutes ago</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-header">
+                <div class="transaction-hash">0x9e4f...c7a2</div>
+                <div class="transaction-amount">12.75 NESS + 45 NCH</div>
+              </div>
+              <div class="transaction-details">
+                <div class="detail-item">
+                  <div class="detail-label">From</div>
+                  <div class="detail-value">Network</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">To</div>
+                  <div class="detail-value">0xd2e7...a4f9</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Block</div>
+                  <div class="detail-value">1,245,891</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">5 minutes ago</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-header">
+                <div class="transaction-hash">0x5b8a...d3e7</div>
+                <div class="transaction-amount">500.00 NESS + 120 NCH</div>
+              </div>
+              <div class="transaction-details">
+                <div class="detail-item">
+                  <div class="detail-label">From</div>
+                  <div class="detail-value">0xb8c3...f7a2</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">To</div>
+                  <div class="detail-value">Exchange</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Block</div>
+                  <div class="detail-value">1,245,890</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Timestamp</div>
+                  <div class="detail-value">8 minutes ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="view-all"
+            >View All Transactions <i class="fas fa-arrow-right"></i
+          ></a>
+        </section>
+      </div>
+
+      <footer>
+        <p>
+          © <span id="currentYear"></span> PrivateNess Network. All rights
+          reserved.
+        </p>
+      </footer>
     </div>
 
     <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 20;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            const size = Math.random() * 100 + 20;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const delay = Math.random() * 15;
-            const duration = 15 + Math.random() * 20;
-            
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            particle.style.animationDelay = `${delay}s`;
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.opacity = Math.random() * 0.3 + 0.1;
-            
-            particlesContainer.appendChild(particle);
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+
+      const particlesContainer = document.getElementById("particles");
+      const particleCount = 20;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+
+        const size = Math.random() * 100 + 20;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = 15 + Math.random() * 20;
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.opacity = Math.random() * 0.3 + 0.1;
+
+        particlesContainer.appendChild(particle);
+      }
+
+      // Search functionality
+      const searchInput = document.querySelector(".search-input");
+      const searchBtn = document.querySelector(".search-btn");
+
+      searchBtn.addEventListener("click", function () {
+        const query = searchInput.value.trim();
+        if (query) {
+          // Show search results notification
+          showNotification(`Searching for: ${query}`);
+
+          // Simulate search delay
+          setTimeout(() => {
+            showNotification(`No results found for: ${query}`);
+          }, 1500);
         }
+      });
 
-        // Search functionality
-        const searchInput = document.querySelector('.search-input');
-        const searchBtn = document.querySelector('.search-btn');
-        
-        searchBtn.addEventListener('click', function() {
-            const query = searchInput.value.trim();
-            if (query) {
-                // Show search results notification
-                showNotification(`Searching for: ${query}`);
-                
-                // Simulate search delay
-                setTimeout(() => {
-                    showNotification(`No results found for: ${query}`);
-                }, 1500);
-            }
-        });
-        
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchBtn.click();
-            }
-        });
-
-        // Block and transaction item interactions
-        const blockItems = document.querySelectorAll('.block-item');
-        const transactionItems = document.querySelectorAll('.transaction-item');
-        
-        blockItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const blockHeight = this.querySelector('.block-height').textContent;
-                showNotification(`Viewing details for ${blockHeight}`);
-            });
-        });
-        
-        transactionItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const txHash = this.querySelector('.transaction-hash').textContent;
-                showNotification(`Viewing details for transaction ${txHash}`);
-            });
-        });
-
-        function showNotification(message) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.textContent = message;
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-            notification.style.color = 'white';
-            notification.style.padding = '1rem 1.5rem';
-            notification.style.borderRadius = '0.8rem';
-            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            notification.style.zIndex = '1000';
-            notification.style.fontWeight = '600';
-            notification.style.transform = 'translateY(100px)';
-            notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            
-            document.body.appendChild(notification);
-            
-            // Animate in
-            setTimeout(() => {
-                notification.style.transform = 'translateY(0)';
-                notification.style.opacity = '1';
-            }, 10);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.transform = 'translateY(100px)';
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          searchBtn.click();
         }
+      });
+
+      // Block and transaction item interactions
+      const blockItems = document.querySelectorAll(".block-item");
+      const transactionItems = document.querySelectorAll(".transaction-item");
+
+      blockItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          const blockHeight = this.querySelector(".block-height").textContent;
+          showNotification(`Viewing details for ${blockHeight}`);
+        });
+      });
+
+      transactionItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          const txHash = this.querySelector(".transaction-hash").textContent;
+          showNotification(`Viewing details for transaction ${txHash}`);
+        });
+      });
+
+      function showNotification(message) {
+        // Create notification element
+        const notification = document.createElement("div");
+        notification.textContent = message;
+        notification.style.position = "fixed";
+        notification.style.bottom = "20px";
+        notification.style.right = "20px";
+        notification.style.background =
+          "linear-gradient(135deg, var(--primary), var(--secondary))";
+        notification.style.color = "white";
+        notification.style.padding = "1rem 1.5rem";
+        notification.style.borderRadius = "0.8rem";
+        notification.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.3)";
+        notification.style.zIndex = "1000";
+        notification.style.fontWeight = "600";
+        notification.style.transform = "translateY(100px)";
+        notification.style.opacity = "0";
+        notification.style.transition = "all 0.3s ease";
+
+        document.body.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = "translateY(0)";
+          notification.style.opacity = "1";
+        }, 10);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = "translateY(100px)";
+          notification.style.opacity = "0";
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      }
     </script>
-</body>
+  </body>
 </html>
