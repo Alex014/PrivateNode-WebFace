@@ -7,8 +7,9 @@ if (!empty($_POST)) {
 
     $command = $_POST['command'];
 
-    if (!in_array($command, ['sysupgrade', 'cert', 'userpass', 'rootpass'])) {
+    if (!in_array($command, ['source', 'sysupgrade', 'cert', 'backup', 'restore', 'userpass', 'rootpass'])) {
         echo json_encode(['err' => 'Wrong command']);
+        die(1);
     }
 
     if (isset($_POST['param'])) {
