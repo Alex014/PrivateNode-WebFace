@@ -180,15 +180,15 @@ restoreChk.addEventListener('change', function() {
 });
 
 restoreFile.addEventListener('change', function() {
-    // makeRestoreBtn.innerHTML = '<i class="fas fa-upload"></i> Restore from ' + this.value
-    // restoreChk.disabled = false
+    restoreBtn.nextElementSibling.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading ...'
+
     let formData = new FormData();           
     formData.append("file", this.files[0]);
 
     fetch('upload.php', {
       method: "POST", 
       body: formData
-    });
+    }).then(result => restoreBtn.nextElementSibling.innerHTML = 'Uploading OK')
 })
 
 makeRestoreBtn.addEventListener('click', function() {
